@@ -256,3 +256,15 @@
   set_fact:
     osd_pool_default_crush_rule: "{% if crush_rule_variable.rc == 0 %}{{ crush_rule_variable.stdout.split(' = ')[1] }}{% else %}{{ ceph_osd_pool_default_crush_rule }}{% endif %}"
   when: ceph_conf.stat.exists
+
+- name: set chrony daemon name RedHat and Ubuntu based OSs
+  block:
+    - name: set chronyd daemon name for RedHat based OSs
+      set_fact:
+        chrony_daemon_name: chronyd
+      when: ansible_os_family in ["RedHat", "Suse"]
+
+    - name: set chronyd daemon name for Ubuntu based OSs
+      set_fact:
+        chrony_daemon_name: chrony
+      when: ansible_os_family == "Debian"

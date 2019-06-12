@@ -52,7 +52,7 @@
           until: result is succeeded
         - name: enable and start chronyd
           service:
-            name: chronyd
+            name: "{{ chrony_daemon_name }}"
             enabled: yes
             state: started
           notify:
